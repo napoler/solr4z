@@ -1,0 +1,24 @@
+
+#########################################
+# name  : Solr4Z (Solr for zh_CN Chinese)
+# author: Robbin Zhao
+# email : zhaogaoxin@gmail.com
+# site  : http://www.drupal001.com 
+#########################################
+
+
+[2012-08-04 Beta1]
+
+List:
+ Solr : 3.6.1
+ IKAnalyzer: 2012u5
+
+Usage:
+ ./solrd 
+
+Settings:
+ solr/      solr home
+ solr/conf/ solr configure files
+ webapps/solr/WEB-INF/classes/IKAnalyzer.cfg.xml  IKAnalyzer configure file
+ webapps/solr/WEB-INF/classes/stopword.dic stop word for IKAnalyzer
+

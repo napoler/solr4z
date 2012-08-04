@@ -1,0 +1,50 @@
+#!/bin/bash
+####################################
+# Robbin Zhao zhaogaoxin@gmail.com #
+# http://www.drupal001.com         #
+####################################
+
+#action=${1-'start'}
+action=$1
+stop_key=STOP_SOLR_KEY 
+stop_port=9993
+
+console=logs/console.log
+start() {
+  java -DSTOP.PORT=$stop_port -Dsolr.solr.home=solr -DSTOP.KEY=$stop_key -jar start.jar 1>>$console 2>>$console &
+  echo "[PID: $!] Solr started, check the log in $console.";
+}
+stop() {
+  java -DSTOP.PORT=$stop_port -Dsolr.solr.home=solr -DSTOP.KEY=$stop_key -jar start.jar --stop
+  echo "Solr stopped!"
+}
+status() {
+  running=`ps axu |grep "STOP.KEY=STOP_SOLR_KEY" |grep -v grep|wc -l`
+  echo $running
+}
+
+if [ "$action" = "start" ]; then
+  r=`status`
+  if [ "$r" -eq "1" ]; then
+    echo "Solr is already running...";
+  else
+   start
+  fi; 
+elif [ "$action" == "stop" ]; then
+  r=`status`
+  if [ "$r" -eq "1" ]; then
+    stop
+  else
+    echo "Solr is not running..."
+  fi;
+#elif [ "$action" == "restart" ]; then
+#  start;
+#  stop;
+elif [ "$action" = "startx" ]; then
+  java -Dsolr.solr.home=solr -jar start.jar 
+else 
+  echo "Usage: $0 start  #start the solr service";
+  echo "       $0 stop   #stop the solr service";
+  echo "       $0 startx #start the solr service as front process";
+  #echo "       $0 restart #restart the solr service";
+fi
